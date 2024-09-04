@@ -1,0 +1,24 @@
+app: cncd
+env: fitting-pond
+namespace: default
+chart:
+  repository: https://chart.onechart.dev
+  name: onechart
+  version: 0.70.0
+values:
+  gitRepository: laszlocph/cncd
+  gitSha: '{{ .SHA }}'
+  image:
+    dockerfile: Dockerfile
+    registry: dockerRegistry
+    repository: 127.0.0.1:32447/{{ .APP }}
+    strategy: dockerfile
+    tag: '{{ .SHA }}'
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+    host: laszlocph-cncd-liwrnrvh.gimlet.app
+    tlsEnabled: true
+  resources:
+    ignoreLimits: true
